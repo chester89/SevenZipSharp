@@ -31,6 +31,8 @@ namespace SevenZipTest
     {
         static void Main(string[] args)
         {          
+            SevenZipCompressor.SetLibraryPath(@"D:\coding\CurrencyRates\bin\7z64.dll");
+
             Console.WriteLine("SevenZipSharp test application.");
             //Console.ReadKey();
 
@@ -46,8 +48,8 @@ namespace SevenZipTest
             */
 
             #region Temporary test
-            var features = SevenZip.SevenZipExtractor.CurrentLibraryFeatures;
-            Console.WriteLine(((uint)features).ToString("X6"));
+            //var features = SevenZip.SevenZipExtractor.CurrentLibraryFeatures;
+            //Console.WriteLine(((uint)features).ToString("X6"));
             #endregion
 
             #region Extraction test - ExtractFiles
@@ -311,16 +313,30 @@ namespace SevenZipTest
             #endregion
 
             #region CompressFileDictionary test
-            /*var tmp = new SevenZipCompressor();
-            Dictionary<string, string> fileDict = new Dictionary<string, string>();
-            fileDict.Add("test.ini", @"d:\Temp\temp.ini");
-            tmp.FileCompressionStarted += (o, e) =>
-            {               
-                Console.WriteLine(String.Format("[{0}%] {1}",
-                        e.PercentDone, e.FileName));
-            };
-            tmp.CompressFileDictionary(fileDict, @"d:\Temp\arch.7z");
-            //*/
+            //var tmp = new SevenZipCompressor();
+            //Dictionary<string, string> fileDict = new Dictionary<string, string>();
+            //fileDict.Add("math-metrics.log", @"d:\coding\mathMetrics.log");
+            //tmp.FileCompressionStarted += (o, e) =>
+            //{               
+            //    Console.WriteLine(String.Format("[{0}%] {1}",
+            //            e.PercentDone, e.FileName));
+            //};
+            //tmp.CompressFileDictionary(fileDict, @"d:\coding\arch.7z");
+            
+            #endregion
+
+            #region CompressStreamDictionary test
+
+            var pressor = new SevenZipCompressor(@"D:\coding\pack-temp");
+
+            pressor.CompressStreamDictionary(new Dictionary<string, Stream>()
+                {
+                    { "math-metrics.log", File.OpenRead(@"D:\coding\mathMetrics.log") }, 
+                    { "memory.csv", File.OpenRead(@"D:\coding\memory.csv") }
+                }, @"D:\coding\arch.7z");
+
+            var y = -1;
+
             #endregion
 
             #region Toughness test - throws no exceptions and no leaks

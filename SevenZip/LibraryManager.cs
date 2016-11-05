@@ -144,6 +144,8 @@ namespace SevenZip
                     }
                     if ((_modulePtr = NativeMethods.LoadLibrary(_libraryFileName)) == IntPtr.Zero)
                     {
+                        var errorCode = Marshal.GetLastWin32Error().ToString();
+
                         throw new SevenZipLibraryException("failed to load library.");
                     }
                     if (NativeMethods.GetProcAddress(_modulePtr, "GetHandlerProperty") == IntPtr.Zero)
